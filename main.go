@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"net/http"
 
-	dbUtil "github.com/chrisgreg/jotts/db"
+	dbUtil "github.com/chrisgreg/jott/db"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 var db *sql.DB
 
 const (
-	dbHost = "tcp(localhost:8889)"
+	dbHost = "tcp(db:3306)"
 	dbName = "jott"
 	dbUser = "root"
 	dbPass = "root"
@@ -31,7 +31,14 @@ func main() {
 
 	defer db.Close()
 
-	startServer(":8080")
+	err = db.Ping()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	fmt.Println(db)
+
+	startServer(":3001")
 }
 
 func startServer(port string) {
