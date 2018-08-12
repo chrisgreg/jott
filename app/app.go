@@ -44,7 +44,7 @@ func (a *App) Run() {
 
 func (a *App) setRoutes() {
 	a.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Welcome to my app")
+		fmt.Fprintf(w, "I'm alive")
 	})
 }
 

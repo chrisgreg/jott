@@ -5,7 +5,6 @@ WORKDIR /go/src/jott
 
 RUN go get -d -v ./...
 RUN go install -v ./...
-RUN go build
 
 ENV PORT=3001
 
