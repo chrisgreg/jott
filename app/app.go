@@ -17,7 +17,6 @@ type App struct {
 }
 
 func (a *App) Initialise(config *config.Config) {
-	//dsn := dbUser + ":" + dbPass + "@" + dbHost + "/" + dbName + "?charset=utf8"
 	dbURI := fmt.Sprintf("%s:%s@%s/%s?charset=utf8",
 		config.DB.User,
 		config.DB.Pass,
@@ -32,8 +31,8 @@ func (a *App) Initialise(config *config.Config) {
 
 	a.DB = db
 	a.Port = config.Port
-
 	a.Router = mux.NewRouter()
+
 	a.setRoutes()
 }
 
@@ -50,4 +49,8 @@ func (a *App) setRoutes() {
 
 func (a *App) Get(route string, f func(w http.ResponseWriter, r *http.Request)) {
 	a.Router.HandleFunc(route, f).Methods("GET")
+}
+
+func (a *App) Post(route string, f func(w http.ResponseWriter, r *http.Request)) {
+	a.Router.HandleFunc(route, f).Methods("POST")
 }

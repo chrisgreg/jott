@@ -8,4 +8,4 @@ RUN go install -v ./...
 
 ENV PORT=3001
 
-CMD ["./jott"]
+CMD ["go", "run", "main.go"]

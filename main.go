@@ -13,20 +13,9 @@ func main() {
 
 	config := config.GetConfig()
 
-	// dsn := dbUser + ":" + dbPass + "@" + dbHost + "/" + dbName + "?charset=utf8"
-	// var err error
-
-	// db, err = sql.Open("mysql", dsn)
-
-	// if err != nil {
-	// 	panic(err)
-	// }
-
 	app := &app.App{}
-	// app.Initialize(config)
 	app.Initialise(config)
 
-	// defer db.Close()
 	defer app.DB.Close()
 
 	err := app.DB.Ping()
@@ -34,7 +23,6 @@ func main() {
 		panic(err.Error())
 	}
 
-	// startServer(":3001")
 	app.Run()
 }
 
