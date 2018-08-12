@@ -1,42 +1,47 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"net/http"
 
+	"github.com/chrisgreg/jott/app"
+	"github.com/chrisgreg/jott/config"
 	dbUtil "github.com/chrisgreg/jott/db"
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var db *sql.DB
+// var db *sql.DB
 
-const (
-	dbHost = "tcp(db:3306)"
-	dbName = "jott"
-	dbUser = "root"
-	dbPass = "root"
-)
+// const (
+// 	dbHost = "tcp(db:3306)"
+// 	dbName = "jott"
+// 	dbUser = "root"
+// 	dbPass = "root"
+// )
 
 func main() {
 
-	dsn := dbUser + ":" + dbPass + "@" + dbHost + "/" + dbName + "?charset=utf8"
-	var err error
+	config := config.GetConfig()
 
-	db, err = sql.Open("mysql", dsn)
+	// dsn := dbUser + ":" + dbPass + "@" + dbHost + "/" + dbName + "?charset=utf8"
+	// var err error
 
-	if err != nil {
-		panic(err)
-	}
+	// db, err = sql.Open("mysql", dsn)
 
-	defer db.Close()
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	err = db.Ping()
+	app := &app.App{}
+	app.Initialize(config)
+
+	// defer db.Close()
+	defer app.DB.Close()
+
+	err := db.Ping()
 	if err != nil {
 		panic(err.Error())
 	}
-
-	fmt.Println(db)
 
 	startServer(":3001")
 }
