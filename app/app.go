@@ -3,13 +3,17 @@ package app
 import (
 	"database/sql"
 	"fmt"
+	"log"
+	"net/http"
 
 	"github.com/chrisgreg/jott/config"
+	"github.com/gorilla/mux"
 )
 
 type App struct {
-	DB   *sql.DB
-	Port int
+	DB     *sql.DB
+	Port   int
+	Router *mux.Router
 }
 
 func (a *App) Initialise(config *config.Config) {
@@ -28,8 +32,22 @@ func (a *App) Initialise(config *config.Config) {
 
 	a.DB = db
 	a.Port = config.Port
+
+	a.Router = mux.NewRouter()
+	a.setRoutes()
 }
 
-// func (a *App) Run(config *config.Config) {
+func (a *App) Run() {
+	host := fmt.Sprintf(":%d", a.Port)
+	log.Fatal(http.ListenAndServe(host, a.Router))
+}
 
-// }
+func (a *App) setRoutes() {
+	a.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Welcome to my app")
+	})
+}
+
+func (a *App) Get(route string, f func(w http.ResponseWriter, r *http.Request)) {
+	a.Router.HandleFunc(route, f).Methods("GET")
+}
