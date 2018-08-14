@@ -18,10 +18,10 @@ func main() {
 
 	defer app.DB.Close()
 
-	err := app.DB.Ping()
-	if err != nil {
-		panic(err.Error())
-	}
+	// err := app.DB.Ping()
+	// if err != nil {
+	// 	panic(err.Error())
+	// }
 
 	app.Run()
 }
