@@ -57,6 +57,10 @@ func (a *App) setRoutes() {
 	a.Get("/users", func(w http.ResponseWriter, r *http.Request) {
 		handler.GetAllUsers(a.DB, w, r)
 	})
+
+	a.Get("/userBlogs", a.GetBlogsForUser)
+
+	a.Get("/blog/{id}", a.GetBlogByID)
 }
 
 func (a *App) Get(route string, f func(w http.ResponseWriter, r *http.Request)) {
@@ -70,4 +74,13 @@ func (a *App) Post(route string, f func(w http.ResponseWriter, r *http.Request))
 // Handlers to manage Employee Data
 func (a *App) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	handler.GetAllUsers(a.DB, w, r)
+}
+
+func (a *App) GetBlogsForUser(w http.ResponseWriter, r *http.Request) {
+	// unhardcode 1 after implementing user login
+	handler.GetAllBlogsForUser(1, a.DB, w, r)
+}
+
+func (a *App) GetBlogByID(w http.ResponseWriter, r *http.Request) {
+	handler.GetBlogByID(a.DB, w, r)
 }
