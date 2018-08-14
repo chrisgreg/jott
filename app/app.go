@@ -28,14 +28,11 @@ func (a *App) Initialise(config *config.Config) {
 
 	fmt.Println(dbURI)
 
-	// db, err := sql.Open("mysql", dbURI)
 	db, err := gorm.Open("mysql", dbURI)
 
 	if err != nil {
 		panic(err)
 	}
-
-	// a.DB = db
 
 	a.DB = models.DBMigrate(db)
 	a.Port = config.Port
@@ -59,7 +56,6 @@ func (a *App) setRoutes() {
 	})
 
 	a.Get("/userBlogs", a.GetBlogsForUser)
-
 	a.Get("/blog/{id}", a.GetBlogByID)
 }
 
@@ -77,7 +73,7 @@ func (a *App) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *App) GetBlogsForUser(w http.ResponseWriter, r *http.Request) {
-	// unhardcode 1 after implementing user login
+	// TODO: unhardcode 1 after implementing user login
 	handler.GetAllBlogsForUser(1, a.DB, w, r)
 }
 

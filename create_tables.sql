@@ -22,11 +22,27 @@ CREATE TABLE `blogs` (
 
 CREATE TABLE `jotts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
   `blog_id` int(11) NOT NULL,
   `content` VARCHAR(3000) NOT NULL,
   `created` DATETIME null,
   PRIMARY KEY (`id`),
   KEY `jott_fk` (`blog_id`),
-  CONSTRAINT `jott_fk` FOREIGN KEY (`blog_id`) REFERENCES `Blog` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
+  KEY `ujott_fk` (`user_id`),
+  CONSTRAINT `jott_fk` FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`),
+  CONSTRAINT `ujott_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) 
 
+-- GET Blogs with Jotts & Content & Authors
+-- SELECT 
+-- b.title, 
+-- b.subtitle, 
+-- b.created blog_created, 
+-- ub.name blog_author,
+-- j.created jott_created,
+-- uj.name jott_author,
+-- j.content
+-- from blogs b
+-- INNER JOIN jotts j on b.id=j.blog_id
+-- INNER JOIN users uj on j.user_id=uj.id
+-- INNER JOIN users ub on ub.id=b.id

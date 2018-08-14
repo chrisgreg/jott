@@ -12,7 +12,6 @@ import (
 func GetAllBlogsForUser(userId uint, db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	blogs := []models.Blog{}
 	db.Where(&models.Blog{UserId: userId}).Find(&blogs)
-	// db.Find(&blogs)
 	respondJSON(w, http.StatusOK, blogs)
 }
 
@@ -29,7 +28,6 @@ func GetBlogByID(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	blog := models.Blog{}
 	db.Where(&models.Blog{ID: uint(blogID)}).Find(&blog)
 
-	// increment read count
 	blog.IncrementReadCount()
 	db.Save(&blog)
 
