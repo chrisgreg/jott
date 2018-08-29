@@ -10,6 +10,7 @@ type Blog struct {
 	Created   *time.Time
 	Private   bool
 	ReadCount uint
+	Jotts     []Jott `gorm:"one2many:blogJotts"`
 }
 
 func (b *Blog) IncrementReadCount() {

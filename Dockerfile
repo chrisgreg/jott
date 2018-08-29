@@ -1,4 +1,4 @@
-FROM golang:1.8
+FROM golang:1.10
 
 ADD ./ /go/src/jott
 WORKDIR /go/src/jott
