@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -28,12 +27,15 @@ func GetBlogByID(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 
 	blog := models.Blog{}
 	db.LogMode(true)
-	db.
-		Joins("INNER JOIN jotts on blogs.id=jotts.blog_id").
+	if err = db.
+		Preload("User").
+		Preload("Jotts").
+		Preload("Jotts.User").
 		Where(&models.Blog{ID: uint(blogID)}).
-		Find(&blog)
-
-	fmt.Println(blog)
+		Find(&blog).Error; err != nil {
+		respondError(w, http.StatusNotFound, "Couldn't find blog with that id")
+		return
+	}
 
 	blog.IncrementReadCount()
 	db.Save(&blog)
