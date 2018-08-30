@@ -1,10 +1,9 @@
 FROM golang:1.10
 
-ADD ./ /go/src/jott
-WORKDIR /go/src/jott
+COPY ./ /go/src/github.com/chrisgreg/jott
+WORKDIR /go/src/github.com/chrisgreg/jott
 
-RUN go get -d -v ./...
-RUN go install -v ./...
+RUN go get -v ./
 
 ENV PORT=3001
 
