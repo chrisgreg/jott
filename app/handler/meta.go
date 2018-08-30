@@ -11,7 +11,14 @@ func GetOverallStats(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		BlogCount int
 	}{}
 
-	db.Table("jotts").Count(&meta.JottCount)
-	db.Table("blogs").Count(&meta.BlogCount)
+	var err error
+	err = db.Table("jotts").Count(&meta.JottCount).Error
+	err = db.Table("blogs").Count(&meta.BlogCount).Error
+
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "Couldn't fetch metastats")
+		return
+	}
+
 	respondJSON(w, http.StatusOK, meta)
 }
