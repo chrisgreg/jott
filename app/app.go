@@ -55,8 +55,9 @@ func (a *App) setRoutes() {
 		handler.GetAllUsers(a.DB, w, r)
 	})
 
-	a.Get("/userBlogs", a.GetBlogsForUser)
+	a.Get("/userblogs", a.GetBlogsForUser)
 	a.Get("/blog/{id}", a.GetBlogByID)
+	a.Get("/metastats", a.GetMetaStats)
 }
 
 func (a *App) Get(route string, f func(w http.ResponseWriter, r *http.Request)) {
@@ -79,4 +80,8 @@ func (a *App) GetBlogsForUser(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) GetBlogByID(w http.ResponseWriter, r *http.Request) {
 	handler.GetBlogByID(a.DB, w, r)
+}
+
+func (a *App) GetMetaStats(w http.ResponseWriter, r *http.Request) {
+	handler.GetOverallStats(a.DB, w, r)
 }
