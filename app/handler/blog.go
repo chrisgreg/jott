@@ -27,8 +27,9 @@ func GetBlogByID(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	}
 
 	blog := models.Blog{}
+	db.LogMode(true)
 	db.
-		Joins("INNER JOIN jotts on blogs.id=blogJotts.blog_id").
+		Joins("INNER JOIN jotts on blogs.id=jotts.blog_id").
 		Where(&models.Blog{ID: uint(blogID)}).
 		Find(&blog)
 
