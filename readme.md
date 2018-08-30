@@ -17,3 +17,8 @@ Simple JWT based blog platform
 - Create Blog functionality
 - Create Jott for a blog functionality
 - Create healthcheck
+- Reset password logic
+
+
+## Design Inspiration
+- Login: vsco.co
