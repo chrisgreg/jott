@@ -46,7 +46,8 @@ func CreateNewUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	respondJSON(w, http.StatusOK, struct{ message string }{message: "Successfully created new user"})
+	PublicUserDetails := NewUser.GetPublicUser()
+	respondJSON(w, http.StatusOK, PublicUserDetails)
 }
 
 func HashPassword(password string) (string, error) {

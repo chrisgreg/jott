@@ -6,7 +6,8 @@ CREATE TABLE `users` (
   `email` varchar(50) NOT NULL ,
   `pass` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE(`email`)
+  UNIQUE(`email`),
+  UNIQUE(`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
 
 CREATE TABLE `blogs` (
