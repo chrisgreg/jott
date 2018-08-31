@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/chrisgreg/jott/app/models"
+	"github.com/chrisgreg/jott/app/utils"
 	"github.com/jinzhu/gorm"
-	"golang.org/x/crypto/bcrypt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -32,8 +32,13 @@ func CreateNewUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	HashedPassword, _ := HashPassword(NewUser.Pass)
+	HashedPassword, err := utils.HashPassword(NewUser.Pass)
 	NewUser.Pass = HashedPassword
+
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "Couldn't read json body")
+		return
+	}
 
 	err = db.Create(&NewUser).Error
 
@@ -47,15 +52,12 @@ func CreateNewUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	}
 
 	PublicUserDetails := NewUser.GetPublicUser()
-	respondJSON(w, http.StatusOK, PublicUserDetails)
-}
+	tokenString, err := utils.CreateNewJWTToken(PublicUserDetails)
 
-func HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
-}
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "Account created but couldn't create JWT")
+		return
+	}
 
-func CheckPasswordHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
+	respondJSON(w, http.StatusOK, utils.JWTResponse{Token: tokenString})
 }
