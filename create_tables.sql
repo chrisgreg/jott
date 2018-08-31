@@ -36,17 +36,17 @@ CREATE TABLE `jotts` (
 ) 
 
  --GET Blogs with Jotts & Content & Authors
- SELECT
- b.title,
- b.subtitle,
- b.read_count,
- b.created blog_created,
- ub.name blog_author,
- j.created jott_created,
- uj.name jott_author,
- j.content
- from blogs b
- INNER JOIN jotts j on b.id=j.blog_id
- INNER JOIN users uj on j.user_id=uj.id
- INNER JOIN users ub on ub.id=b.id
- ORDER BY jott_created
+--  SELECT
+--  b.title,
+--  b.subtitle,
+--  b.read_count,
+--  b.created blog_created,
+--  ub.name blog_author,
+--  j.created jott_created,
+--  uj.name jott_author,
+--  j.content
+--  from blogs b
+--  INNER JOIN jotts j on b.id=j.blog_id
+--  INNER JOIN users uj on j.user_id=uj.id
+--  INNER JOIN users ub on ub.id=b.id
+--  ORDER BY jott_created

@@ -6,10 +6,12 @@ import (
 )
 
 type User struct {
-	ID    uint   `gorm:"unique"`
-	Name  string `gorm:"unique" json:"Name"`
-	Email string `gorm:"unique";json:"-"`
-	Pass  string `json:"-"`
+	ID        uint   `gorm:"unique"`
+	FirstName string `gorm:"unique" json:"first_name"`
+	LastName  string `gorm:"unique" json:"last_name"`
+	Username  string `gorm:"unique" json:"username"`
+	Email     string `gorm:"unique" json:"email"`
+	Pass      string `json:"-"`
 }
 
 // DBMigrate will create and migrate the tables, and then make the some relationships if necessary
