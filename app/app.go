@@ -60,7 +60,9 @@ func (a *App) setRoutes() {
 	a.Get("/metastats", a.GetMetaStats)
 
 	a.Post("/signup", a.CreateNewUser)
-	//a.Post("/blog/new", )
+
+	// Protected routes
+	a.Post("/blog/new", handler.Protected(a.CreateNewBlog))
 }
 
 func (a *App) Get(route string, f func(w http.ResponseWriter, r *http.Request)) {
@@ -91,4 +93,8 @@ func (a *App) GetMetaStats(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) CreateNewUser(w http.ResponseWriter, r *http.Request) {
 	handler.CreateNewUser(a.DB, w, r)
+}
+
+func (a *App) CreateNewBlog(w http.ResponseWriter, r *http.Request) {
+	handler.CreateNewBlog(a.DB, w, r)
 }
