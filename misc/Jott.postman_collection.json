@@ -1,0 +1,94 @@
+{
+	"info": {
+		"_postman_id": "a1d2adae-73f8-491c-a26b-80111c77632e",
+		"name": "Jott",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create default account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"first_name\": \"Chris\",\n\t\"last_name\": \"Gregori\",\n\t\"username\": \"chrisgregori\",\n\t\"email\": \"chrisgreg23@googlemail.com\",\n\t\"Pass\": \"123\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new blog",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoic2RmcyIsImxhc3RfbmFtZSI6InNkZiIsInVzZXJuYW1lIjoiMjg5amltYm8iLCJleHAiOjE1MzYyMjYzNTAsImlzcyI6IkpvdHQifQ.pCJUAhAETFEKIkdx_URbtS-zUGvYgpfSrs4dmvrUu5k"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Title\": \"this is my title!\",\n\t\"Subtitle\": \"this is the subtitle!!\",\n\t\"Private\": false\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/blog/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"blog",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get blog from ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	]
+}
