@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"github.com/gorilla/context"
 	"net/http"
 	"strconv"
 
@@ -41,4 +42,13 @@ func GetBlogByID(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	db.Save(&blog)
 
 	respondJSON(w, http.StatusOK, blog)
+}
+
+func CreateNewBlog(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+	val, ok := context.GetOk(r, "jwtClaims")
+	if !ok {
+		respondError(w, http.StatusInternalServerError, "Couldn't get claims")
+		return
+	}
+
 }

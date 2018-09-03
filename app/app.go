@@ -60,6 +60,7 @@ func (a *App) setRoutes() {
 	a.Get("/metastats", a.GetMetaStats)
 
 	a.Post("/signup", a.CreateNewUser)
+	//a.Post("/blog/new", )
 }
 
 func (a *App) Get(route string, f func(w http.ResponseWriter, r *http.Request)) {

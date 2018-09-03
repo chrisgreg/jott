@@ -5,9 +5,10 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 	"os"
+	"time"
 )
 
-var hmacSecret []byte
+var HMACSecret []byte
 
 type JWTResponse struct {
 	Token string
@@ -19,8 +20,8 @@ type UserClaims struct {
 }
 
 func init() {
-	envSecret := os.Getenv("hmacSecret")
-	hmacSecret = []byte(envSecret)
+	envSecret := os.Getenv("HMACSecret")
+	HMACSecret = []byte(envSecret)
 }
 
 func HashPassword(password string) (string, error) {
@@ -37,15 +38,15 @@ func CreateNewJWTToken(user models.PublicUser) (string, error) {
 	claims := UserClaims{
 		user,
 		jwt.StandardClaims{
-			ExpiresAt: 30000,
-			Issuer:    "test",
+			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
+			Issuer:    "Jott",
 		},
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// Sign and get the complete encoded token as a string using the secret
-	tokenString, err := token.SignedString(hmacSecret)
+	tokenString, err := token.SignedString(HMACSecret)
 	if err != nil {
 		return "", err
 	}
