@@ -6,12 +6,16 @@ import (
 )
 
 type User struct {
-	ID        uint   `gorm:"unique"`
-	FirstName string `gorm:"unique" json:"first_name"`
-	LastName  string `gorm:"unique" json:"last_name"`
-	Username  string `gorm:"unique" json:"username"`
-	Email     string `gorm:"unique" json:"email"`
-	Pass      string `json:"pass"`
+	ID              uint   `gorm:"unique"`
+	FirstName       string `gorm:"unique" json:"first_name"`
+	LastName        string `gorm:"unique" json:"last_name"`
+	Username        string `gorm:"unique" json:"username"`
+	Email           string `gorm:"unique" json:"email"`
+	Pass            string `json:"pass"`
+	GithubProfile   string `json:"github"`
+	TwitterProfile  string `json:"twitter"`
+	FacebookProfile string `json:"facebook"`
+	Website         string `json:"website"`
 }
 
 type PublicUser struct {

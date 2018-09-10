@@ -64,6 +64,7 @@ func (a *App) setRoutes() {
 
 	// Protected routes
 	a.Post("/blog/new", handler.Protected(a.CreateNewBlog))
+	a.Post("/jott/new", handler.Protected(a.CreateNewJott))
 }
 
 func (a *App) Get(route string, f func(w http.ResponseWriter, r *http.Request)) {
@@ -98,6 +99,10 @@ func (a *App) CreateNewUser(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) CreateNewBlog(w http.ResponseWriter, r *http.Request) {
 	handler.CreateNewBlog(a.DB, w, r)
+}
+
+func (a *App) CreateNewJott(w http.ResponseWriter, r *http.Request) {
+	handler.CreateJott(a.DB, w, r)
 }
 
 func (a *App) Login(w http.ResponseWriter, r *http.Request) {

@@ -10,3 +10,19 @@ type Jott struct {
 	Content string
 	Created *time.Time
 }
+
+type PublicJott struct {
+	User    PublicUser
+	BlogId  uint
+	Content string
+	Created *time.Time
+}
+
+func (j *Jott) ToPublicJott() PublicJott {
+	return PublicJott{
+		User:    j.User.GetPublicUser(),
+		BlogId:  j.BlogId,
+		Content: j.Content,
+		Created: j.Created,
+	}
+}

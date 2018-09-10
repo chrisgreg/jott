@@ -44,7 +44,8 @@ func GetBlogByID(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	blog.IncrementReadCount()
 	db.Save(&blog)
 
-	respondJSON(w, http.StatusOK, blog)
+	publicBlog := blog.ToPublicBlog()
+	respondJSON(w, http.StatusOK, publicBlog)
 }
 
 func CreateNewBlog(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
@@ -101,5 +102,7 @@ func CreateNewBlog(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	respondJSON(w, http.StatusOK, newBlog)
+	publicBlog := newBlog.ToPublicBlog()
+
+	respondJSON(w, http.StatusOK, publicBlog)
 }

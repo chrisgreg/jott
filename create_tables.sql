@@ -5,6 +5,10 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL ,
   `pass` varchar(100) NOT NULL,
+  `github_profile` varchar(80) NOT NULL,
+  `twitter_profile`  varchar(80) NOT NULL,
+  `facebook_profile`  varchar(80) NOT NULL,
+  `website`  varchar(80) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE(`email`),
   UNIQUE(`username`)
