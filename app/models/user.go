@@ -11,13 +11,18 @@ type User struct {
 	LastName  string `gorm:"unique" json:"last_name"`
 	Username  string `gorm:"unique" json:"username"`
 	Email     string `gorm:"unique" json:"email"`
-	Pass      string `json:"-"`
+	Pass      string `json:"pass"`
 }
 
 type PublicUser struct {
 	FirstName string `gorm:"unique" json:"first_name"`
 	LastName  string `gorm:"unique" json:"last_name"`
 	Username  string `gorm:"unique" json:"username"`
+}
+
+type Login struct {
+	Email string `json:"email"`
+	Pass  string `json:"pass"`
 }
 
 // DBMigrate will create and migrate the tables, and then make the some relationships if necessary

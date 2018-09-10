@@ -59,6 +59,7 @@ func (a *App) setRoutes() {
 	a.Get("/blog/{id}", a.GetBlogByID)
 	a.Get("/metastats", a.GetMetaStats)
 
+	a.Post("/login", a.Login)
 	a.Post("/signup", a.CreateNewUser)
 
 	// Protected routes
@@ -97,4 +98,8 @@ func (a *App) CreateNewUser(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) CreateNewBlog(w http.ResponseWriter, r *http.Request) {
 	handler.CreateNewBlog(a.DB, w, r)
+}
+
+func (a *App) Login(w http.ResponseWriter, r *http.Request) {
+	handler.Login(a.DB, w, r)
 }

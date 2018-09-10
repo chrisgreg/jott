@@ -12,9 +12,9 @@ Simple JWT based blog platform
 `open http://localhost:8080`
 
 ### TODO
-- Create Account Feature
-- Login Functionality (JWT)
-- Create Blog functionality
+- Create Account Feature - Done
+- Create Blog functionality - Done
+- Login Functionality (JWT) - Done
 - Create Jott for a blog functionality
 - Create healthcheck
 - Reset password logic

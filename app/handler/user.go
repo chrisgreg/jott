@@ -17,6 +17,45 @@ func GetAllUsers(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, http.StatusOK, users)
 }
 
+func Login(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "Couldn't read json body")
+		return
+	}
+
+	var LoginDetails models.Login
+	err = json.Unmarshal(body, &LoginDetails)
+
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "Couldn't read json body")
+		return
+	}
+
+	// Get matching user from DB
+	var FoundUser models.User
+	db.Where(&models.User{Email: LoginDetails.Email}).First(&FoundUser)
+
+	// Check passwords
+	inputPassword := LoginDetails.Pass
+	correctPassword := utils.CheckPasswordHash(inputPassword, FoundUser.Pass)
+
+	if correctPassword == false {
+		respondError(w, http.StatusForbidden, "Password incorrect")
+		return
+	}
+
+	PublicUserDetails := FoundUser.GetPublicUser()
+	tokenString, err := utils.CreateNewJWTToken(PublicUserDetails)
+
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "Account found but couldn't create JWT")
+		return
+	}
+
+	respondJSON(w, http.StatusOK, utils.JWTResponse{Token: tokenString})
+}
+
 func CreateNewUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -32,7 +71,8 @@ func CreateNewUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	HashedPassword, err := utils.HashPassword(NewUser.Pass)
+	inputPassword := NewUser.Pass
+	HashedPassword, err := utils.HashPassword(inputPassword)
 	NewUser.Pass = HashedPassword
 
 	if err != nil {
