@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -30,9 +29,6 @@ type PublicBlog struct {
 
 func (b *Blog) ToPublicBlog() PublicBlog {
 
-	fmt.Println(b)
-	fmt.Println(len(b.Jotts))
-
 	publicJotts := make([]PublicJott, len(b.Jotts))
 
 	for i, value := range b.Jotts {
@@ -42,11 +38,8 @@ func (b *Blog) ToPublicBlog() PublicBlog {
 			Content: value.Content,
 			Created: value.Created,
 		}
-		//publicJotts = append(publicJotts, publicJott)
 		publicJotts[i] = publicJott
 	}
-
-	fmt.Println(publicJotts)
 
 	return PublicBlog{
 		ID:        b.ID,
