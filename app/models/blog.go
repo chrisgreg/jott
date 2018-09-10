@@ -1,6 +1,8 @@
 package models
 
 import (
+	"math"
+	"strings"
 	"time"
 )
 
@@ -17,20 +19,23 @@ type Blog struct {
 }
 
 type PublicBlog struct {
-	ID        uint       `gorm:"unique"`
-	User      PublicUser `json:"Author"`
-	Title     string
-	Subtitle  string
-	Created   *time.Time
-	Private   bool
-	ReadCount uint
-	Jotts     []PublicJott `gorm:"one2many:jotts"`
+	ID         uint       `gorm:"unique"`
+	User       PublicUser `json:"Author"`
+	Title      string
+	Subtitle   string
+	Created    *time.Time
+	Private    bool
+	ReadCount  uint
+	Jotts      []PublicJott `gorm:"one2many:jotts"`
+	TotalWords int
+	TimeToRead int
 }
 
 func (b *Blog) ToPublicBlog() PublicBlog {
 
-	publicJotts := make([]PublicJott, len(b.Jotts))
+	totalWords := 0
 
+	publicJotts := make([]PublicJott, len(b.Jotts))
 	for i, value := range b.Jotts {
 		publicJott := PublicJott{
 			User:    value.User.GetPublicUser(),
@@ -38,21 +43,33 @@ func (b *Blog) ToPublicBlog() PublicBlog {
 			Content: value.Content,
 			Created: value.Created,
 		}
+		totalWords += len(strings.Fields(value.Content))
 		publicJotts[i] = publicJott
 	}
 
+	timeToRead := calculateTimeToRead(totalWords)
+
 	return PublicBlog{
-		ID:        b.ID,
-		User:      b.User.GetPublicUser(),
-		Title:     b.Title,
-		Subtitle:  b.Subtitle,
-		Created:   b.Created,
-		Private:   b.Private,
-		ReadCount: b.ReadCount,
-		Jotts:     publicJotts,
+		ID:         b.ID,
+		User:       b.User.GetPublicUser(),
+		Title:      b.Title,
+		Subtitle:   b.Subtitle,
+		Created:    b.Created,
+		Private:    b.Private,
+		ReadCount:  b.ReadCount,
+		Jotts:      publicJotts,
+		TotalWords: totalWords,
+		TimeToRead: timeToRead,
 	}
 }
 
 func (b *Blog) IncrementReadCount() {
 	b.ReadCount++
+}
+
+func calculateTimeToRead(words int) int {
+	const avgWordsPerMinute = 200
+	minutes := float64(words) / avgWordsPerMinute
+	minutesToRead := math.Ceil(minutes)
+	return int(minutesToRead)
 }

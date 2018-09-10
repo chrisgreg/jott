@@ -47,13 +47,7 @@ func (a *App) Run() {
 }
 
 func (a *App) setRoutes() {
-	a.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "I'm alive")
-	})
-
-	a.Get("/users", func(w http.ResponseWriter, r *http.Request) {
-		handler.GetAllUsers(a.DB, w, r)
-	})
+	a.Get("/health", a.HealthCheck)
 
 	a.Get("/userblogs", a.GetBlogsForUser)
 	a.Get("/blog/{id}", a.GetBlogByID)
@@ -107,4 +101,8 @@ func (a *App) CreateNewJott(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) Login(w http.ResponseWriter, r *http.Request) {
 	handler.Login(a.DB, w, r)
+}
+
+func (a *App) HealthCheck(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "OK")
 }

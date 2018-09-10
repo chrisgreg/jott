@@ -7,9 +7,9 @@ import (
 
 func GetOverallStats(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	meta := struct {
-		JottCount int
-		BlogCount int
-		UserCount int
+		JottCount int `json:"jotts"`
+		BlogCount int `json:"blogs"`
+		UserCount int `json:"users"`
 	}{}
 
 	var err error
