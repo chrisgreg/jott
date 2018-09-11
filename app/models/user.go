@@ -24,6 +24,17 @@ type PublicUser struct {
 	Username  string `gorm:"unique" json:"username"`
 }
 
+type Profile struct {
+	User   PublicUser   `json:"user"`
+	Blogs  []PublicBlog `json:"blogs"`
+	Social struct {
+		GithubProfile   string `json:"github"`
+		TwitterProfile  string `json:"twitter"`
+		FacebookProfile string `json:"facebook"`
+		Website         string `json:"website"`
+	} `json:"social"`
+}
+
 type Login struct {
 	Email string `json:"email"`
 	Pass  string `json:"pass"`
@@ -33,6 +44,19 @@ type Login struct {
 func DBMigrate(db *gorm.DB) *gorm.DB {
 	// db.AutoMigrate(&User{})
 	return db
+}
+
+func (u User) GetProfile(blogs []PublicBlog) Profile {
+	return Profile{
+		User:  u.GetPublicUser(),
+		Blogs: blogs,
+		Social: struct {
+			GithubProfile   string `json:"github"`
+			TwitterProfile  string `json:"twitter"`
+			FacebookProfile string `json:"facebook"`
+			Website         string `json:"website"`
+		}{GithubProfile: u.GithubProfile, TwitterProfile: u.TwitterProfile, FacebookProfile: u.FacebookProfile, Website: u.Website},
+	}
 }
 
 func (u User) GetPublicUser() PublicUser {

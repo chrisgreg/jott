@@ -13,12 +13,6 @@ import (
 	"time"
 )
 
-func GetAllBlogsForUser(userId uint, db *gorm.DB, w http.ResponseWriter, r *http.Request) {
-	blogs := []models.Blog{}
-	db.Where(&models.Blog{UserId: userId}).Find(&blogs)
-	respondJSON(w, http.StatusOK, blogs)
-}
-
 func GetBlogByID(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	idParam := vars["id"]

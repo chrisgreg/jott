@@ -14,7 +14,13 @@ import (
 func GetAllUsers(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	users := []models.User{}
 	db.Find(&users)
-	respondJSON(w, http.StatusOK, users)
+
+	var publicUsers []models.PublicUser
+	for _, user := range users {
+		publicUsers = append(publicUsers, user.GetPublicUser())
+	}
+
+	respondJSON(w, http.StatusOK, publicUsers)
 }
 
 func Login(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
@@ -100,4 +106,27 @@ func CreateNewUser(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	}
 
 	respondJSON(w, http.StatusOK, utils.JWTResponse{Token: tokenString})
+}
+
+func GetProfile(username string, db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+	user := models.User{}
+	blogs := []models.Blog{}
+
+	err := db.Where(&models.User{Username: username}).First(&user).Error
+	err = db.Where(&models.Blog{UserId: user.ID}).Preload("Jotts").Find(&blogs).Error
+
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "Unable to fetch profile information")
+		return
+	}
+
+	publicBlogs := []models.PublicBlog{}
+	for _, value := range blogs {
+		publicBlogs = append(publicBlogs, value.ToPublicBlog())
+	}
+
+	// Create Profile
+	profile := user.GetProfile(publicBlogs)
+
+	respondJSON(w, http.StatusOK, profile)
 }

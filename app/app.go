@@ -47,12 +47,19 @@ func (a *App) Run() {
 }
 
 func (a *App) setRoutes() {
-	a.Get("/health", a.HealthCheck)
 
-	a.Get("/userblogs", a.GetBlogsForUser)
-	a.Get("/blog/{id}", a.GetBlogByID)
+	// Meta routes
+	a.Get("/health", a.HealthCheck)
 	a.Get("/metastats", a.GetMetaStats)
 
+	// Profile & Users
+	a.Get("/@{username}", a.GetProfileForUsername)
+	a.Get("/users", a.GetAllUsers)
+
+	// Blogs
+	a.Get("/blog/{id}", a.GetBlogByID)
+
+	// Account
 	a.Post("/login", a.Login)
 	a.Post("/signup", a.CreateNewUser)
 
@@ -69,14 +76,14 @@ func (a *App) Post(route string, f func(w http.ResponseWriter, r *http.Request))
 	a.Router.HandleFunc(route, f).Methods("POST")
 }
 
-// Handlers to manage Employee Data
 func (a *App) GetAllUsers(w http.ResponseWriter, r *http.Request) {
 	handler.GetAllUsers(a.DB, w, r)
 }
 
-func (a *App) GetBlogsForUser(w http.ResponseWriter, r *http.Request) {
-	// TODO: unhardcode 1 after implementing user login
-	handler.GetAllBlogsForUser(1, a.DB, w, r)
+func (a *App) GetProfileForUsername(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	username := vars["username"]
+	handler.GetProfile(username, a.DB, w, r)
 }
 
 func (a *App) GetBlogByID(w http.ResponseWriter, r *http.Request) {

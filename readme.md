@@ -17,6 +17,7 @@ Simple JWT based blog platform
 - Login Functionality (JWT) - Done
 - Create Jott for a blog functionality - Done
 - Create healthcheck - Done
+- Add user to editors
 - Reset password logic
 - Update password & social accounts endpoint with PATCH
 - Add logs to all error statements
