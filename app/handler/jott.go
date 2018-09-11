@@ -47,6 +47,15 @@ func CreateJott(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	row := db.Table("users").Where("username = ?", username).Select("id").Row()
 	row.Scan(&userId)
 
+	// Check if the user is an editor of the blog
+	var editor models.Editor
+	var count uint
+	db.Where("blog_id = ? AND user_id >= ?", JsonData.BlogId, userId).First(&editor).Count(&count)
+	if count <= 0 {
+		respondError(w, http.StatusForbidden, "Don't have permission to add to this blog")
+		return
+	}
+
 	// Create jott entry
 	currentTime := time.Now()
 

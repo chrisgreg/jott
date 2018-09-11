@@ -106,5 +106,16 @@ func CreateNewBlog(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 
 	publicBlog := newBlog.ToPublicBlog()
 
+	// Create entry in editor table
+	editorBlog := models.Editor{
+		UserId: userId,
+		BlogId: publicBlog.ID,
+	}
+
+	if err = db.Create(&editorBlog).Error; err != nil {
+		respondError(w, http.StatusInternalServerError, "Couldn't create DB entry")
+		return
+	}
+
 	respondJSON(w, http.StatusOK, publicBlog)
 }

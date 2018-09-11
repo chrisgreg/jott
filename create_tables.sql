@@ -40,3 +40,12 @@ CREATE TABLE `jotts` (
   CONSTRAINT `jott_fk` FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`),
   CONSTRAINT `ujott_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
+
+CREATE TABLE `editors` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `blog_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `editor_b_id` FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`),
+  CONSTRAINT `editor_u_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
