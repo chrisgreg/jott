@@ -12,7 +12,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE(`email`),
   UNIQUE(`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
 
 CREATE TABLE `blogs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -22,10 +22,11 @@ CREATE TABLE `blogs` (
   `created` DATETIME null,
   `private` BOOLEAN NOT NULL,
   `read_count` int(10) NOT NULL DEFAULT 0,
+  `theme` ENUM('black-white', 'jott-yellow', 'hot-coral', 'teal-orange', 'blue-lagoon', 'forest-green', 'calm-pink', 'beige'),
   PRIMARY KEY (`id`),
   KEY `tb_fk` (`user_id`),
   CONSTRAINT `tb_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1
 
 CREATE TABLE `jotts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -38,20 +39,4 @@ CREATE TABLE `jotts` (
   KEY `ujott_fk` (`user_id`),
   CONSTRAINT `jott_fk` FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`),
   CONSTRAINT `ujott_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) 
-
- --GET Blogs with Jotts & Content & Authors
---  SELECT
---  b.title,
---  b.subtitle,
---  b.read_count,
---  b.created blog_created,
---  ub.name blog_author,
---  j.created jott_created,
---  uj.name jott_author,
---  j.content
---  from blogs b
---  INNER JOIN jotts j on b.id=j.blog_id
---  INNER JOIN users uj on j.user_id=uj.id
---  INNER JOIN users ub on ub.id=b.id
---  ORDER BY jott_created
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1

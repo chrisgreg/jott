@@ -16,6 +16,7 @@ type Blog struct {
 	Private   bool
 	ReadCount uint
 	Jotts     []Jott `gorm:"one2many:jotts"`
+	Theme     string `sql:"type:enum('black-white', 'jott-yellow', 'hot-coral', 'teal-orange', 'blue-lagoon', 'forest-green', 'calm-pink', 'beige')`
 }
 
 type PublicBlog struct {
@@ -29,6 +30,7 @@ type PublicBlog struct {
 	Jotts      []PublicJott `gorm:"one2many:jotts"`
 	TotalWords int
 	TimeToRead int
+	Theme      string `sql:"type:enum('black-white', 'jott-yellow', 'hot-coral', 'teal-orange', 'blue-lagoon', 'forest-green', 'calm-pink', 'beige')`
 }
 
 func (b *Blog) ToPublicBlog() PublicBlog {
@@ -60,6 +62,7 @@ func (b *Blog) ToPublicBlog() PublicBlog {
 		Jotts:      publicJotts,
 		TotalWords: totalWords,
 		TimeToRead: timeToRead,
+		Theme:      b.Theme,
 	}
 }
 

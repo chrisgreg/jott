@@ -67,6 +67,7 @@ func CreateNewBlog(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		Title    string
 		Subtitle string
 		Private  bool
+		Theme    string
 	}{}
 
 	err = json.Unmarshal(body, &JsonData)
@@ -95,6 +96,7 @@ func CreateNewBlog(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		Created:   &currentTime,
 		Private:   JsonData.Private,
 		ReadCount: 0,
+		Theme:     JsonData.Theme,
 	}
 
 	if err = db.Create(&newBlog).Error; err != nil {
